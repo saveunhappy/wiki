@@ -22,10 +22,14 @@
             <a-button type="primary" @click="edit(record)">
               编辑
             </a-button>
-<!--            <a-button type="danger">-->
-<!--              删除-->
-<!--            </a-button>-->
-            <a-button danger ghost>删除</a-button>
+            <a-popconfirm
+                title="删除后不可恢复，确认删除？"
+                ok-text="是"
+                cancel-text="否"
+                @confirm="handleDelete(record.id)"
+            >
+            <a-button danger>删除</a-button>
+            </a-popconfirm>
           </a-space>
         </template>
       </a-table>
@@ -89,12 +93,12 @@ export default defineComponent({
       },
       {
         title: '分类一',
-        key:'category1Id',
+        key: 'category1Id',
         dataIndex: 'category1Id'
       },
       {
         title: '分类二',
-        key:'category2Id',
+        key: 'category2Id',
         dataIndex: 'category2Id'
       },
       {
@@ -160,7 +164,7 @@ export default defineComponent({
       axios.post("/ebook/save", ebook.value).then((response) => {
 
         const data = response.data;//data = commonResponse
-        if(data.success){
+        if (data.success) {
           modalLoading.value = false;
           modalVisible.value = false;
 
@@ -188,6 +192,24 @@ export default defineComponent({
       modalVisible.value = true;
       ebook.value = {};
     }
+    /**
+     * 删除
+     */
+    const handleDelete = (id: number) => {
+      axios.delete("/ebook/delete/" + id).then((response) => {
+
+        const data = response.data;//data = commonResponse
+        if (data.success) {
+          //重新加载列表
+
+          handleQuery({
+            page: pagination.value.current,
+            size: pagination.value.pageSize
+          });
+        }
+      });
+    };
+
     onMounted(() => {
       handleQuery({
         page: 1,
@@ -208,7 +230,8 @@ export default defineComponent({
       ebook,
       modalVisible,
       modalLoading,
-      handleModalOk
+      handleModalOk,
+      handleDelete
     }
   }
 });
