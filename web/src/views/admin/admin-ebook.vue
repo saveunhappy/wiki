@@ -16,24 +16,12 @@
         </template>
         <template v-slot:action="{ text, record }">
           <a-space size="small">
-            <router-link :to="'/admin/doc?ebookId=' + record.id">
-              <a-button type="primary">
-                文档管理
-              </a-button>
-            </router-link>
             <a-button type="primary" @click="edit(record)">
               编辑
             </a-button>
-            <a-popconfirm
-                title="删除后不可恢复，确认删除?"
-                ok-text="是"
-                cancel-text="否"
-                @confirm="handleDelete(record.id)"
-            >
               <a-button type="danger">
                 删除
               </a-button>
-            </a-popconfirm>
           </a-space>
         </template>
       </a-table>
@@ -56,7 +44,7 @@ export default defineComponent({
     const ebooks = ref();
     const pagination = ref({
       current: 1,
-      pageSize: 2,
+      pageSize: 4,
       total: 0
     });
     const loading = ref(false);
@@ -100,15 +88,19 @@ export default defineComponent({
     const handleQuery = (params: any) => {
       loading.value = true;
       // 如果不清空现有数据，则编辑保存重新加载数据后，再点编辑，则列表显示的还是编辑前的数据
-      axios.get("/ebook/list", params).then((response) => {
+      axios.get("/ebook/list", {
+        params:params
+      }).then((response) => {
         loading.value = false;
+        //response.data是固定的，这个组件内置的，就是后端返回回来的全部
         const data = response.data;
         if (data.success) {
-          ebooks.value = data.content;
+          //这个content就是之前的data，这里的content就是CommonResponse里面的。
+          ebooks.value = data.content.list;
 
           // 重置分页按钮
           pagination.value.current = params.page;
-          pagination.value.total = data.content.total;
+          //pagination.value.total = data.content.total;
         } else {
           message.error(data.message);
         }
@@ -127,7 +119,10 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      handleQuery({});
+      handleQuery({
+        page:1,
+        size:pagination.value.pageSize
+      });
     });
 
     return {
