@@ -19,9 +19,10 @@
             <a-button type="primary" @click="edit(record)">
               编辑
             </a-button>
-            <a-button type="danger">
-              删除
-            </a-button>
+<!--            <a-button type="danger">-->
+<!--              删除-->
+<!--            </a-button>-->
+            <a-button danger ghost>删除</a-button>
           </a-space>
         </template>
       </a-table>
@@ -84,8 +85,14 @@ export default defineComponent({
         dataIndex: 'name'
       },
       {
-        title: '分类',
-        slots: {customRender: 'category'}
+        title: '分类一',
+        key:'category1Id',
+        dataIndex: 'category1Id'
+      },
+      {
+        title: '分类二',
+        key:'category2Id',
+        dataIndex: 'category2Id'
       },
       {
         title: '文档数',
@@ -147,12 +154,22 @@ export default defineComponent({
     const modalLoading = ref(false);
     const handleModalOk = () => {
       modalLoading.value = true;
-      setTimeout(() => {
-        modalLoading.value = false;
-        modalVisible.value = false;
-      }, 2000);
-    }
+      axios.post("/ebook/save", ebook.value).then((response) => {
 
+        const data = response.data;//data = commonResponse
+        if(data.success){
+          modalLoading.value = false;
+          modalVisible.value = false;
+
+          //重新加载列表
+
+          handleQuery({
+            page: pagination.value.current,
+            size: pagination.value.pageSize
+          });
+        }
+      });
+    }
     /**
      * 编辑
      */
