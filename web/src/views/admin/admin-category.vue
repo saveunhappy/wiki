@@ -20,7 +20,7 @@
       <a-table
           :columns="columns"
           :row-key="record => record.id"
-          :data-source="categorys"
+          :data-source="level1"
           :pagination="false"
           :loading="loading"
       >
@@ -38,7 +38,7 @@
                 cancel-text="否"
                 @confirm="handleDelete(record.id)"
             >
-            <a-button danger>删除</a-button>
+              <a-button danger>删除</a-button>
             </a-popconfirm>
           </a-space>
         </template>
@@ -106,6 +106,20 @@ export default defineComponent({
     ];
 
     /**
+     * 一级分类树，children属性就是二级分类
+     * [{
+     *   id: "",
+     *   name: "",
+     *   children: [{
+     *     id: "",
+     *     name: "",
+     *   }]
+     * }]
+     */
+    const level1 = ref(); // 一级分类树，children属性就是二级分类
+    level1.value = [];
+
+    /**
      * 数据查询
      **/
     const handleQuery = () => {
@@ -118,7 +132,10 @@ export default defineComponent({
         if (data.success) {
           //这个content就是之前的data，这里的content就是CommonResponse里面的。
           categorys.value = data.content;
-
+          console.log("原始数组" + categorys.value);
+          level1.value = [];
+          level1.value = Tool.array2Tree(categorys.value,0);
+          console.log("树形结构：", level1);
         } else {
           message.error(data.message);
         }
@@ -139,7 +156,7 @@ export default defineComponent({
           modalVisible.value = false;
           //重新加载列表
           handleQuery();
-        }else {
+        } else {
           message.error(data.message);
         }
       });
@@ -179,8 +196,9 @@ export default defineComponent({
     });
 
     return {
+      level1,
       param,
-      categorys,
+      // categorys,
       columns,
       loading,
       handleQuery,
