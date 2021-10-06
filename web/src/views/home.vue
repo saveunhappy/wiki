@@ -11,7 +11,7 @@
           <MailOutlined />
           <span>欢迎</span>
         </a-menu-item>
-        <a-sub-menu v-for="item in level1" :key="item.id" @click="handleClick">
+        <a-sub-menu v-for="item in level1" :key="item.id">
           <template v-slot:title>
             <span><user-outlined />{{item.name}}</span>
           </template>
@@ -87,29 +87,36 @@ export default defineComponent({
       });
     };
     const isShowWelcome = ref(true);
-
-    const handleClick = (value: any) =>{
-       console.log("menu click",value);
-      if (value.key === 'welcome'){
-        isShowWelcome.value = true;
-      }else{
-        isShowWelcome.value = false;
-
-      }
-    }
-
-    onMounted(() => {
-      handleQueryCategory();
+    let categoryId1 = 0;
+    let categoryId2 = 0;
+    const handleQueryEbook = () =>{
       axios.get("/ebook/list", {
         params: {
           page: 1,
-          size: 100
+          size: 100,
+          categoryId2:categoryId2,
+          categoryId1:categoryId1,
         }
       }).then((response) => {
         const data = response.data;
         ebooks.value = data.content.list;
         //ebooks1.books = data.content;
       });
+    }
+    const handleClick = (value: any) =>{
+       console.log("menu click",value);
+      if (value.key === 'welcome'){
+        isShowWelcome.value = true;
+      }else{
+        categoryId2 = value.key;
+        isShowWelcome.value = false;
+        handleQueryEbook();
+      }
+    }
+
+    onMounted(() => {
+      handleQueryCategory();
+
     });
     return {
       ebooks,
