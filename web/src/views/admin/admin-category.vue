@@ -60,11 +60,15 @@
       </a-form-item>
 
       <a-form-item label="父分类">
+        <!--这里的category.parent都是0，因为选择的是一级分类-->
         <a-select
             ref="select"
             v-model:value="category.parent"
         >
           <a-select-option value="0">无</a-select-option>
+          <!--level1就是父级分类，不包含子集的，，key就是和表结构对应的，有id，有name 。value也是
+          和key是一样的。如果你选的父级分类是自己的id，那就不能选了。这个是在编辑的时候
+          ，因为编辑的时候，你的id就带过来了，是一级分类，这里也是一级分类，所以不能选-->
           <a-select-option v-for="c in level1" :key="c.id" :value="c.id" :disabled="category.id === c.id">
             {{ c.name }}
           </a-select-option>
@@ -226,6 +230,7 @@ export default defineComponent({
 
 <style scoped>
 img {
+
   width: 50px;
   height: 50px;
 }
