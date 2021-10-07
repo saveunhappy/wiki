@@ -31,7 +31,7 @@
         <h1>欢迎使用JAVA知识库</h1>
       </div>
       <a-list v-show="!isShowWelcome" item-layout="vertical" size="large" :grid="{gutter: 20,column : 3}" :data-source="ebooks">
-
+<!--这个item就是一个一个的电子书，这个item是自己定义的，-->
         <template #renderItem="{ item }">
           <a-list-item key="item.name">
             <template #actions>
