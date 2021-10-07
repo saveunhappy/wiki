@@ -59,19 +59,6 @@
         <a-input v-model:value="doc.name"/>
       </a-form-item>
       <a-form-item label="父文档">
-        <a-tree-select
-            v-model:value="doc.parent"
-            style="width: 100%"
-            :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
-            :tree-data="level1"
-            placeholder="请选择父文档"
-            tree-default-expand-all
-            :replaceFields="{title:'name',key:'id',value: 'id'}"
-        >
-        </a-tree-select>
-      </a-form-item>
-
-      <a-form-item label="父文档">
         <!--这里的doc.parent都是0，因为选择的是一级文档-->
         <a-tree-select
             v-model:value="doc.parent"
