@@ -187,6 +187,9 @@ export default defineComponent({
           }
         } else {
           // 如果当前节点不是目标节点，则到其子节点再找找看。
+          //这个就是祖孙三代，你选择了父节点，但是你不能选父节点本身
+          //和孙子节点作为父节点，上面那个就是最外层节点，这个是里面的
+          //也不能选
           const children = node.children;
           if (Tool.isNotEmpty(children)) {
             setDisable(children, id);
