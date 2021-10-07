@@ -193,7 +193,40 @@ export default defineComponent({
         }
       }
     };
-
+    const ids:Array<string> = [];
+    /**
+     * 将某节点及其子孙节点全部id放进一个List里面去。
+     */
+    const setDeleteIds = (treeSelectData: any, id: any) => {
+      // console.log(treeSelectData, id);
+      // 遍历数组，即遍历某一层节点
+      for (let i = 0; i < treeSelectData.length; i++) {
+        const node = treeSelectData[i];
+        if (node.id === id) {
+          // 如果当前节点就是目标节点
+          console.log("disabled", node);
+          // 将目标ID放入结果集ids
+          // node.disabled = true;
+          ids.push(id)
+          // 遍历所有子节点，将所有子节点全部都加上disabled
+          const children = node.children;
+          if (Tool.isNotEmpty(children)) {
+            for (let j = 0; j < children.length; j++) {
+              setDeleteIds(children, children[j].id)
+            }
+          }
+        } else {
+          // 如果当前节点不是目标节点，则到其子节点再找找看。
+          //这个就是祖孙三代，你选择了父节点，但是你不能选父节点本身
+          //和孙子节点作为父节点，上面那个就是最外层节点，这个是里面的
+          //也不能选
+          const children = node.children;
+          if (Tool.isNotEmpty(children)) {
+            setDeleteIds(children, id);
+          }
+        }
+      }
+    };
 
     //---------------表单------------
     //因为树选择组件的属性状态，会随当前编辑的节点而变化，所以单独声明一个响应式变量
@@ -249,7 +282,9 @@ export default defineComponent({
      * 删除
      */
     const handleDelete = (id: number) => {
-      axios.delete("/doc/delete/" + id).then((response) => {
+      console.log("11111",level1,level1.value);
+      setDeleteIds(level1.value,id);
+      axios.delete("/doc/delete/"+ids.join(",")).then((response) => {
 
         const data = response.data;//data = commonResponse
         if (data.success) {
