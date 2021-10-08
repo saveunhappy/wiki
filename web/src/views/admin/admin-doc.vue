@@ -122,6 +122,9 @@ export default defineComponent({
     param.value = {};
     const docs = ref();
     const loading = ref(false);
+    //因为树选择组件的属性状态，会随当前编辑的节点而变化，所以单独声明一个响应式变量
+    const treeSelectData = ref();
+    treeSelectData.value = [];
 
     const columns = [
       {
@@ -168,6 +171,8 @@ export default defineComponent({
           level1.value = [];
           level1.value = Tool.array2Tree(docs.value, 0);
           console.log("树形结构：", level1);
+          treeSelectData.value = Tool.copy(level1.value);
+          treeSelectData.value.unshift({id:0,name:'无'});
         } else {
           message.error(data.message);
         }
@@ -246,9 +251,7 @@ export default defineComponent({
     };
 
     //---------------表单------------
-    //因为树选择组件的属性状态，会随当前编辑的节点而变化，所以单独声明一个响应式变量
-    const treeSelectData = ref();
-    treeSelectData.value = [];
+
     const doc = ref();
     doc.value = {};
     const modalVisible = ref(false);

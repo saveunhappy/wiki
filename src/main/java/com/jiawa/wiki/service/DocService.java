@@ -94,7 +94,13 @@ public class DocService {
     }
     public String findContent(Long id) {
         Content content = contentMapper.selectByPrimaryKey(id);
-        return content.getContent();
+        if(ObjectUtils.isEmpty(content)){
+            return "";
+        }else {
+            //上面是null的话，null.getContent就报错了。
+            return content.getContent();
+        }
+
     }
 
 }
