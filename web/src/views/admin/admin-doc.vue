@@ -264,7 +264,8 @@ export default defineComponent({
         modalLoading.value = false;
         const data = response.data;//data = commonResponse
         if (data.success) {
-          modalVisible.value = false;
+          // modalVisible.value = false;
+          message.success("保存成功");
           //重新加载列表
           handleQuery();
         } else {
@@ -291,6 +292,8 @@ export default defineComponent({
      * 编辑
      */
     const edit = (record: any) => {
+      //编辑的时候清除富文本，否则你新增的时候，还有上一次的结果
+      editor.txt.html("");
       modalVisible.value = true;
       doc.value = Tool.copy(record);
       handleQueryContent();
@@ -305,6 +308,8 @@ export default defineComponent({
      * 新增
      */
     const add = () => {
+      //编辑的时候清除富文本，否则你新增的时候，还有上一次的结果
+      editor.txt.html("");
       modalVisible.value = true;
       doc.value = {
         //左边的ebookId是右边的ebookId就是从url中传进来的，新增的时候携带过来。
