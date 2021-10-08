@@ -25,10 +25,12 @@
   import axios from 'axios';
   import {message} from 'ant-design-vue';
   import {Tool} from "@/util/tool";
+  import {useRoute} from "vue-router";
 
   export default defineComponent({
     name: 'Doc',
     setup() {
+      const route = useRoute();
       const docs = ref();
       const html = ref();
       const defaultSelectedKeys = ref();
@@ -56,7 +58,7 @@
        * 数据查询
        **/
       const handleQuery = () => {
-        axios.get("/doc/all").then((response) => {
+        axios.get("/doc/all/" + route.query.ebookId).then((response) => {
           const data = response.data;
           if (data.success) {
             docs.value = data.content;

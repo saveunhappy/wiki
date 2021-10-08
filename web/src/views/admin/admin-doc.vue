@@ -157,7 +157,7 @@ export default defineComponent({
       loading.value = true;
       // 如果不清空现有数据，则编辑保存重新加载数据后，再点编辑，则列表显示的还是编辑前的数据
       level1.value = [];
-      axios.get("/doc/all").then((response) => {
+      axios.get("/doc/all/"+route.query.ebookId).then((response) => {
         loading.value = false;
         //response.data是固定的，这个组件内置的，就是后端返回回来的全部
         const data = response.data;
