@@ -173,6 +173,8 @@ export default defineComponent({
         }
       });
     };
+
+
     /**
      * 将某节点及其子孙节点全部置为disabled
      */
@@ -271,12 +273,27 @@ export default defineComponent({
       });
     }
     /**
+     * 内容查询
+     **/
+    const handleQueryContent = () => {
+      axios.get("/doc/find-content/"+doc.value.id).then((response) => {
+        loading.value = false;
+        //response.data是固定的，这个组件内置的，就是后端返回回来的全部
+        const data = response.data;
+        if (data.success) {
+          editor.txt.html(data.content);
+        } else {
+          message.error(data.message);
+        }
+      });
+    };
+    /**
      * 编辑
      */
     const edit = (record: any) => {
       modalVisible.value = true;
       doc.value = Tool.copy(record);
-
+      handleQueryContent();
       //不能选择当前节点及其子孙节点作为父节点，不能各论各的，会使树断开
       treeSelectData.value = Tool.copy(level1.value);
       setDisable(treeSelectData.value, record.id);
