@@ -65,7 +65,13 @@ public class UserService {
 
         } else {
             //更新
-            userMapper.updateByPrimaryKey(user);
+            //因为前端可以通过F12修改disable属性，进而修改用户名，这里我们把
+            //用户名设置成null，但是你前端传过来的时候是有id的，就跟之前一样
+            //有值我才去更新，没有就不更新，根据id我们已经能定位到那条数据了
+            //所以这里设置成Null也可以修改我们想修改的用户。
+            user.setLoginName(null);
+            userMapper.updateByPrimaryKeySelective(user);
+//            userMapper.updateByPrimaryKey(user);
         }
     }
     public void delete(Long id) {
