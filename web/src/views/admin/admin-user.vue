@@ -232,7 +232,7 @@
       const handleResetModalOk = () => {
         resetModalLoading.value = true;
 
-        // user.value.password = hexMd5(user.value.password + KEY);
+        user.value.password = hexMd5(user.value.password + KEY);
 
         axios.post("/user/reset-password", user.value).then((response) => {
           resetModalLoading.value = false;
@@ -257,6 +257,7 @@
       const resetPassword = (record: any) => {
         resetModalVisible.value = true;
         user.value = Tool.copy(record);
+        //重置密码，那你肯定不能显示出来了，用户要弄新的了。
         user.value.password = null;
       };
 
