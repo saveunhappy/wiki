@@ -9,6 +9,7 @@
               @select="onSelect"
               :replaceFields="{title: 'name', key: 'id', value: 'id'}"
               :defaultExpandAll="true"
+              :defaultExpandAllRows="true"
           >
           </a-tree>
         </a-col>
@@ -110,7 +111,8 @@
         level1,
         html,
         onSelect,
-        doc
+        doc,
+        defaultSelectedKeys
       }
     }
   });
