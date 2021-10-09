@@ -70,6 +70,11 @@ public class UserService {
             //有值我才去更新，没有就不更新，根据id我们已经能定位到那条数据了
             //所以这里设置成Null也可以修改我们想修改的用户。
             user.setLoginName(null);
+            //修改密码的时候，应该是重置密码，这里只让他修改昵称，
+            // 修改密码的话，重新新增一个接口，否则，密码会一直变，因为
+            //你加密进去的，查询出来的就是加密的，加密的再经过两次加密，
+            //当然一直会变了。
+            user.setPassword(null);
             userMapper.updateByPrimaryKeySelective(user);
 //            userMapper.updateByPrimaryKey(user);
         }
