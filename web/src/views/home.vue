@@ -89,7 +89,6 @@ export default defineComponent({
       });
     };
     const isShowWelcome = ref(true);
-    let categoryId1 = 0;
     let categoryId2 = 0;
     const handleQueryEbook = () =>{
       axios.get("/ebook/list", {
@@ -97,7 +96,6 @@ export default defineComponent({
           page: 1,
           size: 100,
           categoryId2:categoryId2,
-          categoryId1:categoryId1,
         }
       }).then((response) => {
         const data = response.data;

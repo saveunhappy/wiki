@@ -21,11 +21,9 @@
       <a-menu-item key="/about">
         <router-link to="/about">关于我们</router-link>
       </a-menu-item>
-      <a-menu-item>
       <a class="login-menu" @click="showLoginModal">
         <span>登录</span>
       </a>
-      </a-menu-item>
     </a-menu>
     <a-modal
         title="登录"
@@ -42,7 +40,9 @@
         </a-form-item>
       </a-form>
     </a-modal>
+
   </a-layout-header>
+
 </template>
 <script lang="ts">
 import { defineComponent,ref} from 'vue';
@@ -89,9 +89,9 @@ export default defineComponent({
   font-size: 18px;
 }
 .login-menu {
-  float: right;
+  float: right !important;
   color: white;
   padding-left: 10px;
-  left: 100px;
+  /*left: 100px;*/
 }
 </style>
