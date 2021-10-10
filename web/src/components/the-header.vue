@@ -110,10 +110,10 @@ export default defineComponent({
       axios.get('/user/logout/'+ user.value.token).then((response) => {
         const data = response.data;
         if (data.success) {
+          console.log(data);
           message.success("退出登录成功！");
           // user.value = data.content;
           store.commit("setUser", {});
-
         } else {
           message.error(data.message);
         }
