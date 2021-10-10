@@ -103,6 +103,8 @@ public class UserService {
      */
     public void resetPassword(UserResetPasswordReq req) {
         User user = CopyUtil.copy(req, User.class);
+        //根据Id我们能定位到那个唯一的用户名，里面哪个属性有值，我们修改哪个
+        //所以这里就只会修改密码。
         userMapper.updateByPrimaryKeySelective(user);
     }
 
