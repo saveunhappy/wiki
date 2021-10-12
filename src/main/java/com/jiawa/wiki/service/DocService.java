@@ -18,6 +18,7 @@ import com.jiawa.wiki.util.CopyUtil;
 import com.jiawa.wiki.util.RedisUtil;
 import com.jiawa.wiki.util.RequestContext;
 import com.jiawa.wiki.util.SnowFlake;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -43,6 +44,8 @@ public class DocService {
     private RedisUtil redisUtil;
     @Resource
     private WsService wsService;
+    @Resource
+    private RocketMQTemplate rocketMQTemplate;
 
     public List<DocQueryResp> all(Long ebookId) {
         DocExample docExample = new DocExample();
@@ -138,7 +141,8 @@ public class DocService {
         }
         String logId = MDC.get("LOG_ID");
         Doc docDb = docMapper.selectByPrimaryKey(id);
-        wsService.sendInfo("【" + docDb.getName() + "】被点赞",logId);
+//        wsService.sendInfo("【" + docDb.getName() + "】被点赞",logId);
+        rocketMQTemplate.convertAndSend("VOTE_TOPIC","【" + docDb.getName() + "】被点赞");
     }
 
 
