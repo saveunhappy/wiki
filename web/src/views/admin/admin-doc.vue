@@ -200,6 +200,7 @@ export default defineComponent({
     const modalVisible = ref(false);
     const modalLoading = ref(false);
     const editor = new E('#content');
+    editor.config.uploadImgShowBase64 = true;
     editor.config.zIndex = 0;
 
     const handleSave = () => {
@@ -374,7 +375,6 @@ export default defineComponent({
 
     onMounted(() => {
       handleQuery();
-
       editor.create();
     });
 
