@@ -28,7 +28,7 @@
         :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
     >
       <div class="welcome" v-show="isShowWelcome">
-        <h1>欢迎使用JAVA知识库</h1>
+        <the-welcome></the-welcome>
       </div>
       <a-list v-show="!isShowWelcome" item-layout="vertical" size="large" :grid="{gutter: 20,column : 3}" :data-source="ebooks">
 <!--这个item就是一个一个的电子书，这个item是自己定义的，-->
@@ -72,8 +72,12 @@ import {defineComponent, onMounted, ref, reactive, toRef} from 'vue';
 import axios from 'axios';
 import { message } from 'ant-design-vue';
 import {Tool} from "@/util/tool";
+import TheWelcome from "@/components/the-welcome.vue";
 export default defineComponent({
   name: 'Home',
+  components: {
+    TheWelcome
+  },
   setup() {
     const ebooks = ref();
     const level1 = ref();
