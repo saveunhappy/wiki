@@ -1,6 +1,6 @@
 <template>
   <a-layout-header class="header">
-    <div class="logo">Java知识库</div>
+    <div class="logo">小侯的知识库</div>
     <a-menu
         theme="dark"
         mode="horizontal"
@@ -77,8 +77,8 @@ export default defineComponent({
     const user = computed(() => store.state.user);
     // 用来登录
     const loginUser = ref({
-      loginName: "test",
-      password: "test"
+      loginName: "admin",
+      password: "admin"
     });
     const loginModalVisible = ref(false);
     const loginModalLoading = ref(false);
