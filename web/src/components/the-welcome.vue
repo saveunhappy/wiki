@@ -18,7 +18,7 @@
             </a-statistic>
           </a-col>
           <a-col :span="8">
-            <a-statistic title="点赞率" :value="statistic.voteCount / statistic.viewCount * 100"
+            <a-statistic title="点赞率" :value="statistic.voteCount / (statistic.viewCount==0?80:statistic.viewCount) * 100"
                          :precision="2"
                          suffix="%"
                          :value-style="{ color: '#cf1322' }">
@@ -121,7 +121,8 @@ export default defineComponent({
           // console.log(nowRate)
           statistic.value.todayViewIncrease = parseInt(String(statisticResp[1].viewIncrease / nowRate));
           // todayViewIncreaseRate：今日预计增长率
-          statistic.value.todayViewIncreaseRate = (statistic.value.todayViewIncrease - statisticResp[0].viewIncrease) / statisticResp[0].viewIncrease * 100;
+          // statistic.value.todayViewIncreaseRate = (statistic.value.todayViewIncrease - statisticResp[0].viewIncrease) / statisticResp[0].viewIncrease * 100;
+          statistic.value.todayViewIncreaseRate = (statistic.value.todayViewIncrease - statisticResp[0].viewIncrease) / (statisticResp[0].viewIncrease == 0 ? 100: statisticResp[0].viewIncrease) * 100;
           statistic.value.todayViewIncreaseRateAbs = Math.abs(statistic.value.todayViewIncreaseRate);
         }
       });
