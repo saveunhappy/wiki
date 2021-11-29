@@ -110,10 +110,10 @@ export default defineComponent({
         if (data.success) {
           const statisticResp = data.content;
           console.log(statisticResp);
-          statistic.value.viewCount = statisticResp[1].viewCount;
-          statistic.value.voteCount = statisticResp[1].voteCount;
-          statistic.value.todayViewCount = statisticResp[1].viewIncrease;
-          statistic.value.todayVoteCount = statisticResp[1].voteIncrease;
+          statistic.value.viewCount = statisticResp[1].viewCount == null ? 0 : statisticResp[1].viewCount;
+          statistic.value.voteCount = statisticResp[1].voteCount == null ? 0 : statisticResp[1].voteCount;
+          statistic.value.todayViewCount = statisticResp[1].viewIncrease == null ? 0 : statisticResp[1].viewIncrease;
+          statistic.value.todayVoteCount = statisticResp[1].voteIncrease == null ? 0 : statisticResp[1].voteIncrease;
 
           // 按分钟计算当前时间点，占一天的百分比
           const now = new Date();

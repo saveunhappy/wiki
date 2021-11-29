@@ -6,6 +6,7 @@ import AdminUser from '../views/admin/admin-user.vue'
 import AdminEbook from '../views/admin/admin-ebook.vue'
 import AdminCategory from '../views/admin/admin-category.vue'
 import AdminDoc from '../views/admin/admin-doc.vue'
+import AdminTest from '../views/admin/admin-test.vue'
 import {Tool} from "@/util/tool";
 import store from "@/store";
 
@@ -61,7 +62,12 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
             loginRequire: true
         }
-    }
+    },
+    {
+        path: '/admin/test',
+        name: 'AdminTest',
+        component: AdminTest,
+    },
 ]
 
 const router = createRouter({

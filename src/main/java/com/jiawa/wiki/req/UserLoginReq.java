@@ -2,7 +2,6 @@ package com.jiawa.wiki.req;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
-
 public class UserLoginReq {
     //因为@NotNull不能避免空字符串，""这个不算null,所以改成NotEmpty
     @NotEmpty(message = "【用户名】不能为空")
